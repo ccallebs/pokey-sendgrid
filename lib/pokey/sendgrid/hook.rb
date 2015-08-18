@@ -47,7 +47,7 @@ module Pokey
       def base_data
         {
           "timestamp" => Time.now.to_i,
-          "category" => categories,
+          "category" => categories.sample,
           "event" => sendgrid_events.sample,
           "email" => Faker::Internet.email
         }
@@ -62,7 +62,7 @@ module Pokey
           "bounce",
           "open",
           "click",
-          "spam_report",
+          "spamreport",
           "unsubscribe",
           "group_unsubscribe",
           "group_resubscribe"

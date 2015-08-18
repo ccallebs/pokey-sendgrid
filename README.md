@@ -1,8 +1,6 @@
 # Pokey::Sendgrid
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pokey/sendgrid`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Sensible defaults to emulate Sendgrid data on development/QA using Pokey hooks.
 
 ## Installation
 
@@ -22,13 +20,76 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+If this is your first installation (and you're on Rails), run
 
-## Development
+`$ rails g pokey:install`
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+This will create an initializer file that defines your `hook_dir` (the
+location where all hooks will be defined). Just create a new file in that
+directory that inherits from `Pokey::Sendgrid::Hook`.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Simplest example:
+
+``` RUBY
+class SendgridHook < Pokey::Sendgrid::Hook
+  # Your Sendgrid webhook endpoint
+  def destination
+    "/api/sendgrid/events" # Defaults to /api/sendgrid/events
+  end
+end
+```
+
+#### Categories and Unique Arguments
+This gem also supports dynamic categories / unique arguments when generating
+data. To use:
+
+``` RUBY
+class SendgridHook < Pokey::SendgridHook
+  def categories
+    [
+      ["User", "Welcome Email"],
+      ["Billing", "Payment Successful"]
+    ]
+  end
+
+  def unique_args
+    {
+      "custom-identifier" => 15
+    }
+  end
+end
+```
+
+#### Limiting Events
+By default, Pokey::Sendgrid will generate all types of SendGrid events:
+- processed
+- dropped
+- delivered
+- deferred
+- bounce
+- open
+- click
+- spam_report
+- unsubscribe
+- group_unsubscribe
+- group_resubscribe
+
+To limit the amount of events your application receives, override the
+`sendgrid_events` method like so:
+
+``` RUBY
+class SendgridHook < Pokey::SendgridHook
+  protected
+
+  # Limits events to only "Open" and "Click"
+  def sendgrid_events
+    ["open", "click"]
+  end
+end
+```
+
+#### Start generating data
+If you're on rails, just start your server. Otherwise, start your application.
 
 ## Contributing
 
