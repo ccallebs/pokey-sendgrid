@@ -97,6 +97,11 @@ end
 #### Start generating data
 If you're on rails, just start your server. Otherwise, start your application.
 
+Here's an example request:
+```
+ INFO  Pokey::Logger : Made request to localhost:3000 with following data: {"timestamp"=>1439864701, "category"=>nil, "event"=>"dropped", "email"=>"dwight_kerluke@blick.co", "smtp-id"=>"ejaeym5uxil_3v2fm3qjzf0@tremblay.mail"}
+ ```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pokey-sendgrid. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
