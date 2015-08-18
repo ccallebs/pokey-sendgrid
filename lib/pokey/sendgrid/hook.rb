@@ -2,6 +2,7 @@ require 'pokey/hook'
 
 module Pokey
   module Sendgrid
+    # Reference: https://sendgrid.com/docs/API_Reference/Webhooks/event.html
     class Hook < Pokey::Hook
       attr_accessor :category
 
@@ -13,23 +14,40 @@ module Pokey
         data = base_data
 
         case data["event"]
+        # Delivery events
+        when "bounce", "deferred", "delivered", "dropped", "processed"
+          data.merge!({
+            "smtp-id" => "placehoder.unil@faker.local"
+          })
+        # Engagement events
         when "click", "open", "spamreport", "unsubscribe"
-          data.merge({
-            "email": "placeholder@unit-faker.com",
-            "useragent": "Placeholder/5.0 (Until faker)",
-            "ip": "127.0.0.1"
+          data.merge!({
+            "email" => "placeholder@until-faker.com",
+            "useragent" => "Placeholder/5.0 (Until faker)",
+            "ip" => "127.0.0.1"
           })
         end
+
+        data.merge!(unique_args)
+        data
+      end
+
+      def categories
+        []
+      end
+
+      def unique_args
+        {}
       end
 
       protected
 
       def base_data
         {
-          "timestamp": Time.zone.now.in_seconds,
-          "category": category,
-          "event": sendgrid_events.sample,
-          "smtp-id": "placeholder.until@faker.local"
+          "timestamp" => Time.now.to_i,
+          "category" => categories,
+          "event" => sendgrid_events.sample,
+          "email" => "placeholder@until-faker.com"
         }
       end
 
