@@ -28,13 +28,14 @@ This will create an initializer file that defines your `hook_dir` (the
 location where all hooks will be defined). Just create a new file in that
 directory that inherits from `Pokey::Sendgrid::Hook`.
 
-Simplest example:
+Simple example:
 
 ``` RUBY
 class SendgridHook < Pokey::Sendgrid::Hook
   # Your Sendgrid webhook endpoint
   def destination
-    "/api/sendgrid/events" # Defaults to /api/sendgrid/events
+    # Defaults to /api/sendgrid/events
+    "http://localhost:3000/api/sendgrid/events"
   end
 end
 ```

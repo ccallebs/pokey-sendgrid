@@ -7,10 +7,12 @@ module Pokey
     class Hook < Pokey::Hook
       include Pokey::Sendgrid::MockData
 
-      attr_accessor :category
-
       def destination
-        "/api/sendgrid/events"
+        "http://localhost:3000/api/sendgrid/events"
+      end
+
+      def interval
+        5
       end
 
       def data
