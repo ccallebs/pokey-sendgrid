@@ -1,4 +1,5 @@
 require "pokey/sendgrid/version"
+require "pokey/sendgrid/mock_data"
 require "pokey/sendgrid/hook"
 
 module Pokey

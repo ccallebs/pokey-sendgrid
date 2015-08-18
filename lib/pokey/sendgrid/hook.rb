@@ -1,9 +1,12 @@
 require 'pokey/hook'
+require 'faker'
 
 module Pokey
   module Sendgrid
     # Reference: https://sendgrid.com/docs/API_Reference/Webhooks/event.html
     class Hook < Pokey::Hook
+      include Pokey::Sendgrid::MockData
+
       attr_accessor :category
 
       def destination
@@ -17,14 +20,13 @@ module Pokey
         # Delivery events
         when "bounce", "deferred", "delivered", "dropped", "processed"
           data.merge!({
-            "smtp-id" => "placehoder.unil@faker.local"
+            "smtp-id" => smtp_id
           })
         # Engagement events
         when "click", "open", "spamreport", "unsubscribe"
           data.merge!({
-            "email" => "placeholder@until-faker.com",
-            "useragent" => "Placeholder/5.0 (Until faker)",
-            "ip" => "127.0.0.1"
+            "useragent" => user_agents.sample,
+            "ip" => Faker::Internet.ip_v4_address
           })
         end
 
@@ -47,7 +49,7 @@ module Pokey
           "timestamp" => Time.now.to_i,
           "category" => categories,
           "event" => sendgrid_events.sample,
-          "email" => "placeholder@until-faker.com"
+          "email" => Faker::Internet.email
         }
       end
 
