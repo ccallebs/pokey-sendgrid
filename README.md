@@ -37,6 +37,11 @@ class SendgridHook < Pokey::Sendgrid::Hook
     # Defaults to /api/sendgrid/events
     "http://localhost:3000/api/sendgrid/events"
   end
+
+  # Time (in seconds) between Pokey requests
+  def interval
+    5 # Defaults to 5
+  end
 end
 ```
 
