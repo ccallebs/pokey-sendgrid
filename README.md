@@ -1,6 +1,6 @@
 # Pokey::Sendgrid
 
-Sensible defaults to emulate Sendgrid data on development/QA using Pokey hooks.
+Sensible defaults to emulate Sendgrid data on development/QA using [Pokey](https://github.com/ccallebs/pokey) hooks.
 
 ## Installation
 
