@@ -1,4 +1,4 @@
-require 'pokey/hook'
+require 'pokey'
 require 'faker'
 
 module Pokey
